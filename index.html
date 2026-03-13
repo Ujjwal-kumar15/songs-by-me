@@ -11,19 +11,19 @@
         background:#111;
         color:white;
       }
-      img{
+      #cover{
         width:220px;
         height:220px;
         border-radius:50%;
         margin-top:40px;
       }
       /* rotation animation */
-      @keyframes rotates{
+      @keyframes spin{
         from{transform:rotate(0deg);}
         to{transform:rotate(360deg);}
       }
       .rotate{
-        animation:rotate 4s linear infinite;
+        animation:spin 4s linear infinite;
       }
     </style>
   </head>
@@ -35,19 +35,19 @@
     <br><br>
     
     
-    <audio id="song" controls>
+    <audio id="aduio" controls>
       <source src="chale-uthe.mp3" type="audio/mpeg">
     </audio>
     <script>
-      const audio=document.getElementById("song");
-      const cover=document.getElementById("cover");
+      var audio=document.getElementById("aduio");
+      var cover=document.getElementById("cover");
 
-      audio.onplay=function(){
+      audio.addEventListener("play",function(){
         cover.classList.add("rotate");
-      };
-      audio.onpause=function(){
+      });
+      audio.addEventListener("pause",function(){
         cover.classList.remove("rotate");
-      };
+      });
     </script>
     
   </body>
