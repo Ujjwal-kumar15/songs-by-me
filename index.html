@@ -1,113 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Songs by me</title>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Songs By Me</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #1e1e1e;
+    color: #fff;
+    margin: 0;
+    display: flex;
+    justify-content: center;  /* center horizontally */
+    align-items: center;      /* center vertically */
+    min-height: 100vh;
+    flex-direction: column;
+  }
 
-    <style>
+  h1 {
+    margin-bottom: 20px;
+  }
 
-      body{
-        font-family:Arial, sans-serif;
-        background:#1e1e1e;
-        color:#fff;
-        margin:0;
-        display:flex;
-        justify-content:centre;
-        align-items:centre;
-        min-height:100vh;
-        flex-direction:cloumn;
-      }
-      h1{
-        margin-bottom:20px;
-      }
-      .player{
-        display:flex;
-        flex-direction:column;
-        align-items:centre;
-        background;#2c2c2c;
-        padding:30px;
-        border-radius:15px;
-        box-shadow:0 0 20px rgba(0,0,0,0.5);
-      }
-      #cover{
-        width:250px;
-        height:250px;
-        border-radius:50%;
-        margin-bottom:20px;
-        animation:rotate 5s linear infinite;
-        animation-play-state:paused;;
-      }
-      /* rotation animation */
-      .rotate{
-        animation-play-state:running;
-      }
-      @keyframes rotate{
-        0%{transform:rotate(0deg);}
-        100%{transform:rotate(360deg);}
-      }
-      .controls{
-        display:flex;
-        gap:20px;
-        margin-bottom:20px;
-      }
-      button{
-        padding:10px 20px;
-        font-size:16px;
-        border:none;
-        border-radius:8px;
-        background:#ff6b81;
-        color:#fff;
-        cursor:pointer;
-        transition:background 0.3s;
-      }
-      button:hover{
-        background:#ff4757;
-      }
-      #progress{
-        width:100%;
-      }
-    </style>
-  </head>
-  
-  <body>
-    
-    <h2>Chale Uthe</h2>
-    <div class="player">
-      <img src="cover.jpg" alt="cover" id="cover">
-      <audio id="audio" src="chale-uthe.mp3"></audio>
-      <div class="controls>
-        <button id="play">Play</button>
-      </div>
-      <input type="range" id="progress" value="0" min="0" max="100">
-    </div>
-    
-    <script>
-      const audio=document.getElementById("audio");
-      const playBtn=document.getElementById('play");
-      const cover=document.getElementById("cover");
-      const progress=document.getElementById("progress");
+  .player {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #2c2c2c;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    max-width: 300px;
+    width: 90%;
+  }
 
-      playBtn.addEventListener("click",() =>{
-        if(audio.paused){
-          audio.play();
-          cover.classList.add("rotating");
-          playBtn.textContent="Pause";
-        }else {
-          audio.pause();
-          cover.classList.remove("rotating");
-          playBtn.textContent="Play";
-        }
-      });
-      // Update progress bar
-      audio.addEventListener("timeupdate",() =>{
-        const percent=(audio.currentTime / audio.duration) * 100;
-        progress.value=percent;
-      });
+  #cover {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    transform: rotate(0deg);       /* initial rotation */
+    transition: transform 0.1s linear;
+  }
 
-      progress.addEventListener("input", () =>{
-        audio.currentTime=(progress.value / 100) * audio.duration;
-    </script>
-    
-  </body>
+  .controls {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    border-radius: 8px;
+    background: #ff6b81;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  button:hover {
+    background: #ff4757;
+  }
+
+  #progress {
+    width: 100%;
+  }
+</style>
+</head>
+<body>
+<h1>Songs By Me</h1>
+<div class="player">
+  <img src="cover.jpg" alt="cover" id="cover">
+  <audio id="audio" src="chale-uthe.mp3"></audio>
+  <div class="controls">
+    <button id="play">Play</button>
+  </div>
+  <input type="range" id="progress" value="0" min="0" max="100">
+</div>
+
+<script>
+const audio = document.getElementById("audio");
+const playBtn = document.getElementById("play");
+const cover = document.getElementById("cover");
+const progress = document.getElementById("progress");
+
+let rotation = 0;          // current rotation in degrees
+let rotateInterval;
+
+// Function to start rotation
+function startRotation() {
+  clearInterval(rotateInterval);
+  rotateInterval = setInterval(() => {
+    rotation += 0.5;       // speed of rotation (degrees per interval)
+    if(rotation >= 360) rotation = rotation % 360;
+    cover.style.transform = `rotate(${rotation}deg)`;
+  }, 20);                  // every 20ms (~50fps)
+}
+
+// Function to stop rotation
+function stopRotation() {
+  clearInterval(rotateInterval);
+}
+
+// Play/Pause toggle
+playBtn.addEventListener("click", () => {
+  if(audio.paused){
+    audio.play();
+    startRotation();
+    playBtn.textContent = "Pause";
+  } else {
+    audio.pause();
+    stopRotation();
+    playBtn.textContent = "Play";
+  }
+});
+
+// Update progress bar
+audio.addEventListener("timeupdate", () => {
+  const percent = (audio.currentTime / audio.duration) * 100;
+  progress.value = percent || 0;
+});
+
+// Seek audio
+progress.addEventListener("input", () => {
+  audio.currentTime = (progress.value / 100) * audio.duration;
+});
+</script>
+</body>
 </html>
