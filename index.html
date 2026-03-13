@@ -1,29 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Songs by me</title>
 
     <style>
 
       body{
-        text-align:centre;
-        font-family:Arial;
-        background:#111;
-        color:white;
+        font-family:Arial, sans-serif;
+        background:#1e1e1e;
+        color:#fff;
+        display:flex;
+        align-items:centre;
+        min-height:100vh;
+        margin:0;
+        flex-direction:cloumn;
+      }
+      h1{
+        margin-bottom:20px;
+      }
+      .player{
+        display:flex;
+        flex-direction:column;
+        align-items:centre;
+        background;#2c2c2c;
+        padding:30px;
+        border-radius:15px;
+        box-shadow:0 0 20px rgba(0,0,0,0.5);
       }
       #cover{
         width:220px;
         height:220px;
         border-radius:50%;
-        margin-top:40px;
+        margin-bottom:20px;
+        transition: transform 0.2s linear;
       }
       /* rotation animation */
-      @keyframes spin{
-        from{transform:rotate(0deg);}
-        to{transform:rotate(360deg);}
-      }
       .rotate{
-        animation:spin 4s linear infinite;
+        animation:rotate 5s linear infinite;
+      }
+      @keyframes rotate{
+        0%{transform:rotate(0deg);}
+        100%{transform:rotate(360deg);}
+      }
+      .controls{
+        display:flex;
+        gap:20px;
+        margin-bottom:20px;
+      }
+      button:hover{
+        background:#ff4757;
+      }
+      #progress{
+        width:100%;
       }
     </style>
   </head>
@@ -31,22 +61,35 @@
   <body>
     
     <h2>Chale Uthe</h2>
-    <img id="cover" src="cover.jpg">
-    <br><br>
+    <div class="player">
+      <img src="cover.jpg" alt="cover" id="cover">
+      <audio id="audio" src="chale-uthe.mp3"></audio>
+      <div class="controls>
+        <button id="play">Play</button>
+      </div>
+      <input type="range" id="progress" value="0" min="0" max="100">
+    </div>
     
-    
-    <audio id="aduio" controls>
-      <source src="chale-uthe.mp3" type="audio/mpeg">
-    </audio>
     <script>
-      var audio=document.getElementById("aduio");
-      var cover=document.getElementById("cover");
+      const audio=document.getElementById("audio");
+      const playBtn=document.getElementById('play");
+      const cover=document.getElementById("cover");
+      const progress=document.getElementById("progress");
 
-      audio.addEventListener("play",function(){
-        cover.classList.add("rotate");
+      playBtn.addEventListener("click",() =>{
+        if(audio.paused){
+          audio.play();
+          cover.classList.add("rotating");
+          playBtn.textContent="Pause";
+        }else {
+          audio.pause();
+          cover.classList.remove("rotating");
+          playBtn.textContent="Play";
+        }
       });
-      audio.addEventListener("pause",function(){
-        cover.classList.remove("rotate");
+      // Update progress bar
+      audio.addEventListener("timeupdate",() =>{
+        audio.currentTime=(progress.value / 100)*audio.duration;
       });
     </script>
     
