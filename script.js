@@ -19,11 +19,11 @@ const description = document.getElementById('songDescription');
 // Playlist Data - Placeholders with Working Royalty-free Audio & Unsplash Images
 const songs = [
     {
-        title: 'Chale_Uthe',
-        artist: '~by_Ujjwal',
+        title: 'Chale_Uthe', // Change to your song's name
+        artist: 'Creative Commons',
         description: 'Motivation & Focus',
-        src: 'chale-uthe.mp3',
-        cover: 'cover.jpg'
+        src: 'chale-uthe.mp3', // This will load your uploaded song.mp3 file
+        cover: 'cover.jpg' // This will load your uploaded cover.jpg file
     },
     {
         title: 'Electronic Future',
