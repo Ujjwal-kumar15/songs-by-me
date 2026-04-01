@@ -19,11 +19,11 @@ const description = document.getElementById('songDescription');
 // Playlist Data - Placeholders with Working Royalty-free Audio & Unsplash Images
 const songs = [
     {
-        title: 'Chale_Uthe',
-        artist: 'Ujjwal_Kumar',
-        description: 'Motivation',
-        src: 'chale-uthe.mp3',
-        cover: 'cover.jpg'
+        title: 'Epic Cinematic',
+        artist: 'Creative Commons',
+        description: 'Motivation & Focus',
+        src: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=epic-cinematic-trailer-113866.mp3',
+        cover: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
         title: 'Electronic Future',
@@ -118,6 +118,7 @@ function renderPlaylist() {
             <div class="playlist-info">
                 <div class="playlist-title">${song.title}</div>
                 <div class="playlist-artist">${song.artist}</div>
+                <div class="playlist-desc-mini">${song.description}</div>
             </div>
         `;
 
@@ -216,11 +217,12 @@ function updateProgress(e) {
 
 // Set progress by clicking on progress bar
 function setProgress(e) {
-    const width = this.clientWidth;
-    const clickX = e.offsetX;
+    const rect = progressContainer.getBoundingClientRect();
+    const width = rect.width;
+    const clickX = e.clientX - rect.left;
     const duration = audio.duration;
     
-    if(duration) {
+    if(duration && !isNaN(duration)) {
         audio.currentTime = (clickX / width) * duration;
     }
 }
