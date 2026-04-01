@@ -15,10 +15,10 @@ const albumArtContainer = document.querySelector('.album-art');
 // Playlist Data - Placeholders with Working Royalty-free Audio & Unsplash Images
 const songs = [
     {
-        title: 'Epic Cinematic',
-        artist: 'Creative Commons',
-        src: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=epic-cinematic-trailer-113866.mp3',
-        cover: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+        title: 'Chale_Uthe',
+        artist: 'Ujjwal_Kumar',
+        src: 'chale-uthe.mp3',
+        cover: 'cover.jpg'
     },
     {
         title: 'Electronic Future',
