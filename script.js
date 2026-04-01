@@ -11,36 +11,45 @@ const currentTimeEl = document.getElementById('currentTime');
 const durationEl = document.getElementById('duration');
 const playlistEl = document.getElementById('playlist');
 const albumArtContainer = document.querySelector('.album-art');
+const volumeSlider = document.getElementById('volumeSlider');
+const volumeIcon = document.getElementById('volumeIcon');
+const playingStatus = document.getElementById('playingStatus');
+const description = document.getElementById('songDescription');
 
 // Playlist Data - Placeholders with Working Royalty-free Audio & Unsplash Images
 const songs = [
     {
-        title: 'Chale_Uthe',
-        artist: 'Ujjwal_Kumar',
-        src: 'chale-uthe.mp3',
-        cover: 'cover.jpg'
+        title: 'Epic Cinematic',
+        artist: 'Creative Commons',
+        description: 'Motivation & Focus',
+        src: 'https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=epic-cinematic-trailer-113866.mp3',
+        cover: 'https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
         title: 'Electronic Future',
         artist: 'Creative Commons',
+        description: 'High Energy Workout',
         src: 'https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3cbce25.mp3?filename=future-bass-112349.mp3',
         cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
         title: 'Lofi Chill Vibes',
         artist: 'Creative Commons',
+        description: 'Relaxation & Study',
         src: 'https://cdn.pixabay.com/download/audio/2022/05/16/audio_b281f6ebdb.mp3?filename=good-night-160166.mp3',
         cover: 'https://images.unsplash.com/photo-1518609878373-06d740f60d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
         title: 'Inspiring Ambient',
         artist: 'Creative Commons',
+        description: 'Deep Work Session',
         src: 'https://cdn.pixabay.com/download/audio/2021/10/01/audio_eb36eac1d2.mp3?filename=ambient-piano-amp-strings-10711.mp3',
         cover: 'https://images.unsplash.com/photo-1460723237483-7a6dc9d0b212?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     },
     {
         title: 'Cyberpunk Synthwave',
         artist: 'Creative Commons',
+        description: 'Gaming Vibes',
         src: 'https://cdn.pixabay.com/download/audio/2022/10/14/audio_99370df3bc.mp3?filename=synthwave-80s-121510.mp3',
         cover: 'https://images.unsplash.com/photo-1555680202-c86f0e12f086?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
     }
@@ -59,6 +68,7 @@ function init() {
 function loadSong(song) {
     title.innerText = song.title;
     artist.innerText = song.artist;
+    description.innerText = song.description;
     audio.src = song.src;
     cover.src = song.cover;
     updatePlaylistUI();
@@ -104,7 +114,6 @@ function renderPlaylist() {
         
         li.innerHTML = `
             <span class="playlist-number">${index + 1}</span>
-            <i class="fas fa-volume-up playing-icon"></i>
             <img src="${song.cover}" alt="${song.title}" class="playlist-thumb">
             <div class="playlist-info">
                 <div class="playlist-title">${song.title}</div>
@@ -147,6 +156,7 @@ function updatePlaylistUI() {
 // Play song
 function playSong() {
     albumArtContainer.classList.add('playing');
+    playingStatus.classList.add('active');
     // Change icon to pause
     const icon = playBtn.querySelector('i');
     icon.classList.remove('fa-play');
@@ -158,6 +168,7 @@ function playSong() {
 // Pause song
 function pauseSong() {
     albumArtContainer.classList.remove('playing');
+    playingStatus.classList.remove('active');
     // Change icon to play
     const icon = playBtn.querySelector('i');
     icon.classList.add('fa-play');
@@ -214,6 +225,36 @@ function setProgress(e) {
     }
 }
 
+// Volume control
+let currentVolume = 1;
+
+volumeSlider.addEventListener('input', (e) => {
+    audio.volume = e.target.value;
+    currentVolume = audio.volume;
+    updateVolumeIcon();
+});
+
+volumeIcon.addEventListener('click', () => {
+    if (audio.volume > 0) {
+        audio.volume = 0;
+        volumeSlider.value = 0;
+    } else {
+        audio.volume = currentVolume > 0 ? currentVolume : 1;
+        volumeSlider.value = audio.volume;
+    }
+    updateVolumeIcon();
+});
+
+function updateVolumeIcon() {
+    if (audio.volume === 0) {
+        volumeIcon.className = 'fas fa-volume-mute';
+    } else if (audio.volume < 0.5) {
+        volumeIcon.className = 'fas fa-volume-down';
+    } else {
+        volumeIcon.className = 'fas fa-volume-up';
+    }
+}
+
 // Event listeners
 playBtn.addEventListener('click', () => {
     const isPlaying = albumArtContainer.classList.contains('playing');
@@ -236,3 +277,5 @@ audio.addEventListener('ended', nextSong);
 // Setup on load
 init();
 
+// Set initial volume
+audio.volume = volumeSlider.value;
