@@ -20,17 +20,17 @@ const description = document.getElementById('songDescription');
 const songs = [
     {
         title: 'Chale_Uthe', // Change to your song's name
-        artist: 'Creative Commons',
+        artist: '~by_Ujjwal',
         description: 'Motivation & Focus',
         src: 'chale-uthe.mp3', // This will load your uploaded song.mp3 file
         cover: 'cover.jpg' // This will load your uploaded cover.jpg file
     },
     {
-        title: 'Electronic Future',
-        artist: 'Creative Commons',
-        description: 'High Energy Workout',
-        src: 'https://cdn.pixabay.com/download/audio/2021/11/25/audio_91b3cbce25.mp3?filename=future-bass-112349.mp3',
-        cover: 'https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80'
+        title: 'Tu Akela Nahi Hai',
+        artist: '~by_Ujjwal',
+        description: 'focus',
+        src: 'Tu Akela Nahi Hai.mp3',
+        cover: 'Tu Akela Nahi Hai.jpeg'
     },
     {
         title: 'Lofi Chill Vibes',
