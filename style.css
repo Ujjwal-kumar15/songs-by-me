@@ -139,7 +139,7 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 30px;
-    animation: spin infinite linear infinite;
+    animation: spin 15s linear infinite;
     animation-play-state: paused;
 }
 
